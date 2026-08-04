@@ -26,24 +26,24 @@ Sudah tersedia seeder bawaan dengan:
     - `dosen1@kampus.ac.id` s/d `dosen8@kampus.ac.id` / `dosen123`
 
 ### 4. 🚪 CRUD Data Ruangan & 🔄 WebService Sync
-- **CRUD Ruangan**: Admin dapat menambah, mengubah detail, dan menghapus ruangan.
+- **CRUD Ruangan**: Admin dapat menambah, mengubah detail, dan menghapus ruangan. Menggunakan pencegahan duplikasi Kode Ruang & Nama Ruangan.
 - **Sinkronisasi WebService**: Fitur sync otomatis data ruangan dari WebService API:
   `https://api-ruangan.vercel.app/rooms`
   Data di-upsert berdasarkan `kode_ruang` tanpa merusak riwayat peminjaman yang ada.
 
-### 5. 📅 Pengajuan Peminjaman & Approval Admin
-- **Dosen**: Mengajukan peminjaman ruangan dengan memilih ruangan, tanggal, jam mulai, jam selesai, dan keperluan kegiatan.
+### 5. 📅 Pengajuan Peminjaman, Edit, & Approval Admin
+- **Dosen**: Mengajukan & mengedit peminjaman ruangan dengan memilih ruangan, tanggal, jam mulai, jam selesai, dan keperluan kegiatan.
 - **Admin**: Menelaah dan menyetujui (**Approve**) atau menolak (**Reject**) pengajuan beserta memberikan catatan/alasan admin.
 
 ### 6. 🚫 Pencegahan Bentrok Jadwal (Anti-Collision Logic)
 - **Aturan Bisnis Utama**: Ruangan yang **telah disetujui** tidak dapat dipinjam pada slot waktu yang berpotongan di hari yang sama:
   $$\text{Overlap} \iff (\text{start}_{\text{baru}} < \text{end}_{\text{lama}}) \land (\text{end}_{\text{baru}} > \text{start}_{\text{lama}})$$
-- Validasi dilakukan secara ganda: pada saat Dosen membuat pengajuan dan saat Admin menekan tombol Approve.
+- Validasi dilakukan secara ganda: pada saat Dosen membuat/mengedit pengajuan dan saat Admin menekan tombol Approve.
 
 ### 7. 📊 Dashboard Ringkasan & 🔍 Search / Filter
 - Metric Cards: Total Ruangan, Ruangan Tersedia vs Pemeliharaan, Pengajuan Menunggu, Disetujui, Ditolak, dan Selesai.
-- Distribusi Ruangan Per Gedung (`Gedung A`, `Gedung B`, `Gedung C`, dst).
-- Filtering berdasarkan Tanggal, Status (`Menunggu`, `Disetujui`, `Ditolak`, `Selesai`), Gedung, Jenis Ruangan (`kelas`, `pertemuan`, `rapat`), dan Pencarian Teks.
+- Toggle Tema Light / Dark Mode (Default Light).
+- Filtering berdasarkan Tanggal (dengan DatePicker & 1-click clear), Status (`Menunggu`, `Disetujui`, `Ditolak`, `Selesai`), Gedung (opsi gedung tidak hilang saat terfilter), Jenis Ruangan (`kelas`, `pertemuan`, `rapat`), dan Pencarian Teks.
 
 ### 8. 🧪 Automated Testing (Vitest)
 Tersedia 5 test suite otomatis (16 unit tests) yang mencakup:
@@ -74,10 +74,20 @@ Tersedia 5 test suite otomatis (16 unit tests) yang mencakup:
    ```
 
 3. **Konfigurasi Environment Variables (`.env`)**:
-   File `.env` sudah dikonfigurasi menggunakan database Neon PostgreSQL:
+   Salin file `.env.example` menjadi `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   *Atau untuk pengguna Windows (Command Prompt / PowerShell)*:
+   ```powershell
+   copy .env.example .env
+   ```
+
+   Isi file `.env` akan secara otomatis berisi konfigurasi database Neon PostgreSQL & JWT Secret:
    ```env
    DATABASE_URL="postgresql://neondb_owner:npg_fs0pGnwEz6Qk@ep-morning-fog-aza6tehy-pooler.c-3.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
    JWT_SECRET="super-secret-jwt-key-peminjaman-ruangan-2026"
+   NEXT_PUBLIC_APP_URL="http://localhost:3000"
    ```
 
 4. **Migrasi Database & Seeder**:
@@ -115,7 +125,7 @@ Pada halaman Login (`http://localhost:3000/login`), Anda dapat menekan tombol **
 | :--- | :--- | :--- | :--- |
 | **ADMIN** | `admin@kampus.ac.id` | `admin123` | Administrator Utama (Dapat Approve/Reject, CRUD Ruangan, Sync API) |
 | **ADMIN** | `admin.sarpras@kampus.ac.id` | `admin123` | Admin Sarpras |
-| **DOSEN** | `dosen1@kampus.ac.id` | `dosen123` | Prof. Dr. Ahmad Dahlan, M.T. (Dapat Mengajukan Peminjaman) |
+| **DOSEN** | `dosen1@kampus.ac.id` | `dosen123` | Prof. Dr. Ahmad Dahlan, M.T. (Dapat Mengajukan & Mengedit Peminjaman) |
 | **DOSEN** | `dosen2@kampus.ac.id` | `dosen123` | Dr. Budi Santoso, M.Kom. |
 
 ---
@@ -128,11 +138,11 @@ my-app/
 │   ├── api/
 │   │   ├── auth/          # Endpoint Login, Logout, Me
 │   │   ├── dashboard/     # Endpoint Ringkasan Statistik
-│   │   ├── reservations/  # Endpoint CRUD & Persetujuan Peminjaman
+│   │   ├── reservations/  # Endpoint CRUD, Edit, & Persetujuan Peminjaman
 │   │   └── rooms/         # Endpoint CRUD & Sync Ruangan WebService
 │   ├── dashboard/         # Halaman Dashboard, Data Ruangan, Peminjaman
 │   ├── login/             # Halaman Login
-│   ├── globals.css        # Styling Glassmorphism & Custom Tailwind
+│   ├── globals.css        # Styling Glassmorphism & Tailwind CSS v4 Theme
 │   └── layout.tsx
 ├── components/            # Komponen UI Navigation & Layout
 ├── lib/
@@ -144,5 +154,6 @@ my-app/
 │   ├── schema.prisma      # Prisma Schema Models
 │   └── seed.ts            # Seeder 10 Ruangan & 10 User
 ├── __tests__/             # 5 Automated Test Suites (Vitest)
+├── .env.example           # Contoh Berkas Environment Variables
 └── README.md
 ```

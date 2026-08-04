@@ -11,7 +11,7 @@ export async function PATCH(
   try {
     const authUser = await getAuthUser();
     if (!authUser || authUser.role !== Role.ADMIN) {
-      return NextResponse.json({ error: 'Akses ditolak. Khusus Admin.' }, { status: 403 });
+      return NextResponse.json({ error: 'Akses Ditolak. Khusus Admin.' }, { status: 403 });
     }
 
     const { id } = await params;
@@ -44,7 +44,7 @@ export async function PATCH(
         const conf = conflictResult.conflictingReservation;
         return NextResponse.json(
           {
-            error: `Persetujuan ditolak! Terjadi bentrok jadwal dengan peminjaman oleh ${conf.user.name} pada jam ${conf.jamMulai} - ${conf.jamSelesai}.`,
+            error: `Persetujuan Ditolak! Terjadi bentrok jadwal dengan peminjaman oleh ${conf.user.name} pada jam ${conf.jamMulai} - ${conf.jamSelesai}.`,
             conflict: conf,
           },
           { status: 400 }
@@ -70,13 +70,13 @@ export async function PATCH(
         where: { id },
         data: {
           status: ReservationStatus.Ditolak,
-          catatanAdmin: catatanAdmin || 'Pengajuan ditolak oleh Admin.',
+          catatanAdmin: catatanAdmin || 'Pengajuan Ditolak oleh Admin.',
         },
         include: { room: true, user: true },
       });
 
       return NextResponse.json({
-        message: `Pengajuan peminjaman ruangan ${reservation.room.kodeRuang} ditolak`,
+        message: `Pengajuan peminjaman ruangan ${reservation.room.kodeRuang} Ditolak`,
         reservation: updated,
       });
     }

@@ -413,7 +413,7 @@ export default function RoomsPage() {
                     required
                     value={formData.kodeRuang}
                     onChange={(e) => setFormData({ ...formData, kodeRuang: e.target.value })}
-                    placeholder="e.g. GDA-101"
+                    placeholder="e.g. GDA-101 atau 101"
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>

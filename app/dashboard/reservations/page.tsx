@@ -287,11 +287,10 @@ export default function ReservationsPage() {
           <button
             type="button"
             onClick={() => setMineOnly(!mineOnly)}
-            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${
-              mineOnly
-                ? 'bg-blue-100 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-500/40'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border-slate-300 dark:border-slate-700'
-            }`}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${mineOnly
+              ? 'bg-blue-100 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-500/40'
+              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border-slate-300 dark:border-slate-700'
+              }`}
           >
             {mineOnly ? 'Peminjaman Saya' : 'Semua Jadwal Disetujui'}
           </button>
@@ -352,20 +351,19 @@ export default function ReservationsPage() {
               {/* Status & Actions Column */}
               <div className="flex items-center justify-between md:flex-col md:items-end gap-3 pt-3 md:pt-0 border-t md:border-t-0 border-slate-200 dark:border-slate-800">
                 <span
-                  className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase flex items-center gap-1.5 ${
-                    res.status === 'Disetujui'
-                      ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
-                      : res.status === 'Menunggu'
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase flex items-center gap-1.5 ${res.status === 'Disetujui'
+                    ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
+                    : res.status === 'Menunggu'
                       ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30'
                       : res.status === 'Ditolak'
-                      ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30'
-                      : 'bg-slate-100 dark:bg-slate-500/15 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-500/30'
-                  }`}
+                        ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30'
+                        : 'bg-slate-100 dark:bg-slate-500/15 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-500/30'
+                    }`}
                 >
                   {res.status === 'Disetujui' && <CheckCircle2 className="w-4 h-4" />}
                   {res.status === 'Menunggu' && <Clock className="w-4 h-4" />}
                   {res.status === 'Ditolak' && <XCircle className="w-4 h-4" />}
-                  {res.status}
+                  {res.status === 'Ditolak' ? 'Rejected' : res.status}
                 </span>
 
                 <div className="flex items-center gap-2">

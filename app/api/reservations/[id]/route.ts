@@ -26,7 +26,7 @@ export async function PUT(
 
     // Only owner or Admin can edit
     if (authUser.role !== Role.ADMIN && reservation.userId !== authUser.userId) {
-      return NextResponse.json({ error: 'Akses ditolak untuk mengedit peminjaman ini' }, { status: 403 });
+      return NextResponse.json({ error: 'Akses Ditolak untuk mengedit peminjaman ini' }, { status: 403 });
     }
 
     const body = await request.json();
@@ -144,7 +144,7 @@ export async function DELETE(
 
     // Only owner or Admin can delete/cancel
     if (authUser.role !== Role.ADMIN && reservation.userId !== authUser.userId) {
-      return NextResponse.json({ error: 'Akses ditolak' }, { status: 403 });
+      return NextResponse.json({ error: 'Akses Ditolak' }, { status: 403 });
     }
 
     await db.reservation.delete({ where: { id } });

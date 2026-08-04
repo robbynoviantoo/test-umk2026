@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     const authUser = await getAuthUser();
     if (!authUser || authUser.role !== Role.ADMIN) {
       return NextResponse.json(
-        { error: 'Akses ditolak. Khusus Admin.' },
+        { error: 'Akses Ditolak. Khusus Admin.' },
         { status: 403 }
       );
     }

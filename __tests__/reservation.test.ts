@@ -11,10 +11,10 @@ describe('Reservation Business Rules & Status Transitions', () => {
     const allowedNextStatuses = [ReservationStatus.Disetujui, ReservationStatus.Ditolak];
 
     const targetStatusApproved = ReservationStatus.Disetujui;
-    const targetStatusRejected = ReservationStatus.Ditolak;
+    const targetStatusDitolak = ReservationStatus.Ditolak;
 
     expect(allowedNextStatuses.includes(targetStatusApproved)).toBe(true);
-    expect(allowedNextStatuses.includes(targetStatusRejected)).toBe(true);
+    expect(allowedNextStatuses.includes(targetStatusDitolak)).toBe(true);
   });
 
   it('should validate time bounds where jamMulai must be before jamSelesai', () => {

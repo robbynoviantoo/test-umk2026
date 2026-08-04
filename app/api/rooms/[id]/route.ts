@@ -38,7 +38,7 @@ export async function PUT(
   try {
     const authUser = await getAuthUser();
     if (!authUser || authUser.role !== Role.ADMIN) {
-      return NextResponse.json({ error: 'Akses ditolak. Khusus Admin.' }, { status: 403 });
+      return NextResponse.json({ error: 'Akses Ditolak. Khusus Admin.' }, { status: 403 });
     }
 
     const { id } = await params;
@@ -105,7 +105,7 @@ export async function DELETE(
   try {
     const authUser = await getAuthUser();
     if (!authUser || authUser.role !== Role.ADMIN) {
-      return NextResponse.json({ error: 'Akses ditolak. Khusus Admin.' }, { status: 403 });
+      return NextResponse.json({ error: 'Akses Ditolak. Khusus Admin.' }, { status: 403 });
     }
 
     const { id } = await params;

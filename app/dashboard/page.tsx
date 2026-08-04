@@ -174,9 +174,9 @@ export default function DashboardPage() {
             </div>
           </div>
           <p className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-slate-300 mt-3">
-            {(stats?.rejectedCount || 0) + (stats?.completedCount || 0)}
+            {(stats?.DitolakCount || 0) + (stats?.completedCount || 0)}
           </p>
-          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">{stats?.rejectedCount || 0} Ditolak • {stats?.completedCount || 0} Selesai</p>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 font-medium">{stats?.DitolakCount || 0} Ditolak • {stats?.completedCount || 0} Selesai</p>
         </div>
       </div>
 
@@ -231,17 +231,16 @@ export default function DashboardPage() {
                         </td>
                         <td className="py-3.5 px-4">
                           <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${
-                              res.status === 'Disetujui'
-                                ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
-                                : res.status === 'Menunggu'
+                            className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase ${res.status === 'Disetujui'
+                              ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
+                              : res.status === 'Menunggu'
                                 ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30'
                                 : res.status === 'Ditolak'
-                                ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30'
-                                : 'bg-slate-100 dark:bg-slate-500/15 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-500/30'
-                            }`}
+                                  ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30'
+                                  : 'bg-slate-100 dark:bg-slate-500/15 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-500/30'
+                              }`}
                           >
-                            {res.status}
+                            {res.status === 'Ditolak' ? 'Rejected' : res.status}
                           </span>
                         </td>
                       </tr>

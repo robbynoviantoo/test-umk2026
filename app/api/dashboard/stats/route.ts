@@ -25,7 +25,7 @@ export async function GET() {
     const approvedCount = await db.reservation.count({
       where: { ...userFilter, status: ReservationStatus.Disetujui },
     });
-    const rejectedCount = await db.reservation.count({
+    const DitolakCount = await db.reservation.count({
       where: { ...userFilter, status: ReservationStatus.Ditolak },
     });
     const completedCount = await db.reservation.count({
@@ -57,7 +57,7 @@ export async function GET() {
         totalReservations,
         pendingCount,
         approvedCount,
-        rejectedCount,
+        DitolakCount,
         completedCount,
         buildingCounts,
       },
