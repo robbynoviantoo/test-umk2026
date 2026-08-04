@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  DOSEN
+}
+
+enum ReservationStatus {
+  Menunggu
+  Disetujui
+  Ditolak
+  Selesai
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String
+  name         String
+  nip          String?
+  role         Role          @default(DOSEN)
+  department   String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  reservations Reservation[]
+}
+
+model Room {
+  id             String        @id @default(cuid())
+  externalId     String?       @unique
+  kodeRuang      String        @unique
+  namaRuangan    String
+  namaGedung     String
+  kapasitasRuang Int
+  jenisRuang     String
+  status         String        @default("Tersedia")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  reservations   Reservation[]
+}
+
+model Reservation {
+  id           String            @id @default(cuid())
+  userId       String
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roomId       String
+  room         Room              @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  tanggal      String            // YYYY-MM-DD
+  jamMulai     String            // HH:mm
+  jamSelesai   String            // HH:mm
+  startTime    DateTime          // timestamp combined for range query
+  endTime      DateTime          // timestamp combined for range query
+  keperluan    String
+  status       ReservationStatus @default(Menunggu)
+  catatanAdmin String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
