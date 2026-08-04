@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   XCircle,
   Trash2,
+  Edit2,
   Info,
 } from 'lucide-react';
 
@@ -29,8 +30,9 @@ export default function ReservationsPage() {
   const [selectedDate, setSelectedDate] = useState('');
   const [mineOnly, setMineOnly] = useState(true);
 
-  // New Request Modal
+  // Request Modal (Create / Edit)
   const [requestModalOpen, setRequestModalOpen] = useState(false);
+  const [editingReservation, setEditingReservation] = useState<any>(null);
   const [requestForm, setRequestForm] = useState({
     roomId: '',
     tanggal: new Date().toISOString().split('T')[0],
@@ -107,14 +109,45 @@ export default function ReservationsPage() {
     }
   }, [user, search, selectedStatus, selectedDate, mineOnly]);
 
-  const handleCreateRequest = async (e: React.FormEvent) => {
+  const handleOpenCreateModal = () => {
+    setEditingReservation(null);
+    setRequestForm({
+      roomId: rooms[0]?.id || '',
+      tanggal: new Date().toISOString().split('T')[0],
+      jamMulai: '08:00',
+      jamSelesai: '10:00',
+      keperluan: '',
+    });
+    setRequestError('');
+    setRequestModalOpen(true);
+  };
+
+  const handleOpenEditModal = (res: any) => {
+    setEditingReservation(res);
+    setRequestForm({
+      roomId: res.roomId,
+      tanggal: res.tanggal,
+      jamMulai: res.jamMulai,
+      jamSelesai: res.jamSelesai,
+      keperluan: res.keperluan,
+    });
+    setRequestError('');
+    setRequestModalOpen(true);
+  };
+
+  const handleSaveRequest = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmittingRequest(true);
     setRequestError('');
 
     try {
-      const res = await fetch('/api/reservations', {
-        method: 'POST',
+      const url = editingReservation
+        ? `/api/reservations/${editingReservation.id}`
+        : '/api/reservations';
+      const method = editingReservation ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestForm),
       });
@@ -123,13 +156,6 @@ export default function ReservationsPage() {
       if (!res.ok) throw new Error(data.error);
 
       setRequestModalOpen(false);
-      setRequestForm({
-        roomId: rooms[0]?.id || '',
-        tanggal: new Date().toISOString().split('T')[0],
-        jamMulai: '08:00',
-        jamSelesai: '10:00',
-        keperluan: '',
-      });
       fetchReservations();
     } catch (err: any) {
       setRequestError(err.message);
@@ -170,7 +196,7 @@ export default function ReservationsPage() {
   };
 
   const handleDeleteReservation = async (id: string) => {
-    if (!confirm('Apakah Anda yakin ingin membatalkan pengajuan ini?')) return;
+    if (!confirm('Apakah Anda yakin ingin membatalkan/menghapus pengajuan ini?')) return;
     try {
       const res = await fetch(`/api/reservations/${id}`, { method: 'DELETE' });
       const data = await res.json();
@@ -198,10 +224,7 @@ export default function ReservationsPage() {
         </div>
 
         <button
-          onClick={() => {
-            setRequestError('');
-            setRequestModalOpen(true);
-          }}
+          onClick={handleOpenCreateModal}
           className="gradient-btn px-5 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-2 shadow-lg self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
@@ -224,12 +247,27 @@ export default function ReservationsPage() {
         </div>
 
         {/* Date Filter */}
-        <input
-          type="date"
-          value={selectedDate}
-          onChange={(e) => setSelectedDate(e.target.value)}
-          className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
-        />
+        <div className="relative flex items-center">
+          <CalendarDays className="absolute left-3 w-4 h-4 text-blue-600 dark:text-blue-400 pointer-events-none" />
+          <input
+            type="date"
+            value={selectedDate}
+            onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            className="pl-9 pr-8 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium cursor-pointer"
+            title="Pilih Tanggal Peminjaman"
+          />
+          {selectedDate && (
+            <button
+              type="button"
+              onClick={() => setSelectedDate('')}
+              className="absolute right-2 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-bold text-xs"
+              title="Bersihkan Filter Tanggal"
+            >
+              ×
+            </button>
+          )}
+        </div>
 
         {/* Status Filter */}
         <select
@@ -342,13 +380,23 @@ export default function ReservationsPage() {
                   )}
 
                   {(isAdmin || res.userId === user?.id) && (
-                    <button
-                      onClick={() => handleDeleteReservation(res.id)}
-                      className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-300 transition-colors"
-                      title="Batalkan / Hapus Pengajuan"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <>
+                      <button
+                        onClick={() => handleOpenEditModal(res)}
+                        className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-blue-500/20 text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        title="Edit Pengajuan Peminjaman"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+
+                      <button
+                        onClick={() => handleDeleteReservation(res.id)}
+                        className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-500/20 text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-300 transition-colors"
+                        title="Batalkan / Hapus Pengajuan"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
@@ -357,14 +405,14 @@ export default function ReservationsPage() {
         </div>
       )}
 
-      {/* Modal New Request */}
+      {/* Modal New / Edit Request */}
       {requestModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 dark:bg-black/70 backdrop-blur-sm">
           <div className="glass-card w-full max-w-lg rounded-3xl p-6 shadow-2xl relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
             <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
               <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                Form Pengajuan Peminjaman Ruangan
+                {editingReservation ? <Edit2 className="w-5 h-5 text-blue-600 dark:text-blue-400" /> : <Plus className="w-5 h-5 text-blue-600 dark:text-blue-400" />}
+                {editingReservation ? 'Edit Pengajuan Peminjaman' : 'Form Pengajuan Peminjaman Ruangan'}
               </h3>
               <button
                 onClick={() => setRequestModalOpen(false)}
@@ -381,7 +429,7 @@ export default function ReservationsPage() {
               </div>
             )}
 
-            <form onSubmit={handleCreateRequest} className="space-y-4 mt-4 text-xs">
+            <form onSubmit={handleSaveRequest} className="space-y-4 mt-4 text-xs">
               <div>
                 <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Pilih Ruangan</label>
                 <select
@@ -403,8 +451,9 @@ export default function ReservationsPage() {
                   type="date"
                   required
                   value={requestForm.tanggal}
+                  onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                   onChange={(e) => setRequestForm({ ...requestForm, tanggal: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
+                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium cursor-pointer"
                 />
               </div>
 
@@ -415,8 +464,9 @@ export default function ReservationsPage() {
                     type="time"
                     required
                     value={requestForm.jamMulai}
+                    onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                     onChange={(e) => setRequestForm({ ...requestForm, jamMulai: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
+                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium cursor-pointer"
                   />
                 </div>
 
@@ -426,8 +476,9 @@ export default function ReservationsPage() {
                     type="time"
                     required
                     value={requestForm.jamSelesai}
+                    onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                     onChange={(e) => setRequestForm({ ...requestForm, jamSelesai: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
+                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium cursor-pointer"
                   />
                 </div>
               </div>
@@ -457,7 +508,7 @@ export default function ReservationsPage() {
                   disabled={submittingRequest}
                   className="gradient-btn px-5 py-2 rounded-xl text-white font-bold flex items-center gap-2 shadow-md"
                 >
-                  {submittingRequest ? 'Kirim...' : 'Kirim Pengajuan'}
+                  {submittingRequest ? 'Menyimpan...' : editingReservation ? 'Simpan Perubahan' : 'Kirim Pengajuan'}
                 </button>
               </div>
             </form>

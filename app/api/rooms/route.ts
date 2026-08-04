@@ -73,23 +73,37 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check duplicate code
-    const existing = await db.room.findUnique({
-      where: { kodeRuang },
+    // 1. Check duplicate kodeRuang
+    const existingCode = await db.room.findUnique({
+      where: { kodeRuang: kodeRuang.trim() },
     });
 
-    if (existing) {
+    if (existingCode) {
       return NextResponse.json(
-        { error: `Kode ruangan ${kodeRuang} sudah digunakan` },
+        { error: `Gagal! Kode ruangan "${kodeRuang}" sudah digunakan.` },
+        { status: 400 }
+      );
+    }
+
+    // 2. Check duplicate namaRuangan
+    const existingName = await db.room.findFirst({
+      where: {
+        namaRuangan: { equals: namaRuangan.trim(), mode: 'insensitive' },
+      },
+    });
+
+    if (existingName) {
+      return NextResponse.json(
+        { error: `Gagal! Nama ruangan "${namaRuangan}" sudah digunakan.` },
         { status: 400 }
       );
     }
 
     const room = await db.room.create({
       data: {
-        kodeRuang,
-        namaRuangan,
-        namaGedung,
+        kodeRuang: kodeRuang.trim(),
+        namaRuangan: namaRuangan.trim(),
+        namaGedung: namaGedung.trim(),
         kapasitasRuang: parseInt(kapasitasRuang, 10),
         jenisRuang,
         status: status || 'Tersedia',

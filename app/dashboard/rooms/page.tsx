@@ -19,6 +19,7 @@ import {
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState<any[]>([]);
+  const [allGedungs, setAllGedungs] = useState<string[]>([]);
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
@@ -58,6 +59,21 @@ export default function RoomsPage() {
     }
   };
 
+  const fetchAllGedungs = async () => {
+    try {
+      const res = await fetch('/api/rooms');
+      if (res.ok) {
+        const data = await res.json();
+        const list = Array.from(
+          new Set(data.rooms.map((r: any) => r.namaGedung))
+        ).sort() as string[];
+        setAllGedungs(list);
+      }
+    } catch (err) {
+      console.error('Fetch all gedungs error:', err);
+    }
+  };
+
   const fetchRooms = async () => {
     try {
       setLoading(true);
@@ -81,6 +97,7 @@ export default function RoomsPage() {
 
   useEffect(() => {
     fetchUser();
+    fetchAllGedungs();
   }, []);
 
   useEffect(() => {
@@ -95,6 +112,7 @@ export default function RoomsPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setSyncNotice(`Sinkronisasi WebService berhasil! (${data.result.createdCount} baru, ${data.result.updatedCount} diperbarui)`);
+      await fetchAllGedungs();
       fetchRooms();
     } catch (err: any) {
       setSyncNotice(`Gagal sync: ${err.message}`);
@@ -150,6 +168,7 @@ export default function RoomsPage() {
       if (!res.ok) throw new Error(data.error);
 
       setModalOpen(false);
+      await fetchAllGedungs();
       fetchRooms();
     } catch (err: any) {
       setFormError(err.message);
@@ -165,6 +184,7 @@ export default function RoomsPage() {
       const res = await fetch(`/api/rooms/${roomId}`, { method: 'DELETE' });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+      await fetchAllGedungs();
       fetchRooms();
     } catch (err: any) {
       alert(`Gagal menghapus: ${err.message}`);
@@ -172,7 +192,6 @@ export default function RoomsPage() {
   };
 
   const isAdmin = user?.role === 'ADMIN';
-  const gedungs = Array.from(new Set(rooms.map((r) => r.namaGedung))).sort();
 
   return (
     <div className="space-y-6">
@@ -243,7 +262,7 @@ export default function RoomsPage() {
             className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
           >
             <option value="semua">Semua Gedung</option>
-            {gedungs.map((g) => (
+            {allGedungs.map((g) => (
               <option key={g} value={g}>{g}</option>
             ))}
           </select>

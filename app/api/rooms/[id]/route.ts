@@ -50,11 +50,31 @@ export async function PUT(
       return NextResponse.json({ error: 'Ruangan tidak ditemukan' }, { status: 404 });
     }
 
-    if (kodeRuang !== existingRoom.kodeRuang) {
-      const duplicate = await db.room.findUnique({ where: { kodeRuang } });
-      if (duplicate) {
+    const trimmedCode = kodeRuang.trim();
+    const trimmedName = namaRuangan.trim();
+
+    // Check duplicate code
+    if (trimmedCode !== existingRoom.kodeRuang) {
+      const duplicateCode = await db.room.findUnique({ where: { kodeRuang: trimmedCode } });
+      if (duplicateCode) {
         return NextResponse.json(
-          { error: `Kode ruangan ${kodeRuang} sudah digunakan` },
+          { error: `Gagal! Kode ruangan "${trimmedCode}" sudah digunakan.` },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Check duplicate name
+    if (trimmedName.toLowerCase() !== existingRoom.namaRuangan.toLowerCase()) {
+      const duplicateName = await db.room.findFirst({
+        where: {
+          namaRuangan: { equals: trimmedName, mode: 'insensitive' },
+          id: { not: id },
+        },
+      });
+      if (duplicateName) {
+        return NextResponse.json(
+          { error: `Gagal! Nama ruangan "${trimmedName}" sudah digunakan.` },
           { status: 400 }
         );
       }
@@ -63,9 +83,9 @@ export async function PUT(
     const updatedRoom = await db.room.update({
       where: { id },
       data: {
-        kodeRuang,
-        namaRuangan,
-        namaGedung,
+        kodeRuang: trimmedCode,
+        namaRuangan: trimmedName,
+        namaGedung: namaGedung.trim(),
         kapasitasRuang: parseInt(kapasitasRuang, 10),
         jenisRuang,
         status,
