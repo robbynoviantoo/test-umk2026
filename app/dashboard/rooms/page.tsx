@@ -183,7 +183,7 @@ export default function RoomsPage() {
             <DoorOpen className="w-7 h-7 text-blue-600 dark:text-blue-400" />
             Katalog Data Ruangan
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-xs mt-1">
+          <p className="text-slate-600 dark:text-slate-400 text-xs mt-1 font-medium">
             Daftar seluruh fasilitas ruangan kuliah, seminar, dan rapat di lingkungan kampus.
           </p>
         </div>
@@ -193,7 +193,7 @@ export default function RoomsPage() {
             <button
               onClick={handleSyncWebService}
               disabled={syncing}
-              className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-semibold flex items-center gap-2 transition-all disabled:opacity-50 shadow-sm"
+              className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 text-xs font-bold flex items-center gap-2 transition-all disabled:opacity-50 shadow-sm"
               title="Sinkronisasi dari https://api-ruangan.vercel.app/rooms"
             >
               <RefreshCw className={`w-4 h-4 text-blue-600 dark:text-blue-400 ${syncing ? 'animate-spin' : ''}`} />
@@ -201,7 +201,7 @@ export default function RoomsPage() {
             </button>
             <button
               onClick={handleOpenCreateModal}
-              className="gradient-btn px-4 py-2.5 rounded-xl text-white font-semibold text-xs flex items-center gap-2 shadow-lg"
+              className="gradient-btn px-4 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-2 shadow-lg"
             >
               <Plus className="w-4 h-4" />
               Tambah Ruangan
@@ -211,17 +211,17 @@ export default function RoomsPage() {
       </div>
 
       {syncNotice && (
-        <div className="p-4 rounded-2xl bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 text-blue-800 dark:text-blue-300 text-xs flex items-center justify-between">
+        <div className="p-4 rounded-2xl bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/30 text-blue-800 dark:text-blue-300 text-xs flex items-center justify-between font-medium">
           <div className="flex items-center gap-2">
             <Link2 className="w-4 h-4 shrink-0" />
             <span>{syncNotice}</span>
           </div>
-          <button onClick={() => setSyncNotice('')} className="hover:text-black dark:hover:text-white font-bold">×</button>
+          <button onClick={() => setSyncNotice('')} className="hover:text-slate-900 dark:hover:text-white font-bold">×</button>
         </div>
       )}
 
       {/* Filter & Search Bar */}
-      <div className="glass-card rounded-2xl p-4 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4 shadow-sm">
+      <div className="glass-card rounded-2xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4 shadow-sm">
         {/* Search */}
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -230,7 +230,7 @@ export default function RoomsPage() {
             placeholder="Cari kode ruang, nama ruangan, atau gedung..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700/80 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 font-medium"
           />
         </div>
 
@@ -240,7 +240,7 @@ export default function RoomsPage() {
           <select
             value={selectedGedung}
             onChange={(e) => setSelectedGedung(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500"
+            className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
           >
             <option value="semua">Semua Gedung</option>
             {gedungs.map((g) => (
@@ -252,7 +252,7 @@ export default function RoomsPage() {
           <select
             value={selectedJenis}
             onChange={(e) => setSelectedJenis(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500"
+            className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
           >
             <option value="semua">Semua Jenis</option>
             <option value="kelas">Kelas</option>
@@ -264,7 +264,7 @@ export default function RoomsPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500"
+            className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
           >
             <option value="semua">Semua Status</option>
             <option value="Tersedia">Tersedia</option>
@@ -279,26 +279,26 @@ export default function RoomsPage() {
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : rooms.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
+        <div className="glass-card rounded-2xl p-12 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <DoorOpen className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-base font-semibold text-slate-700 dark:text-slate-300">Tidak Ada Ruangan Ditemukan</h3>
-          <p className="text-xs text-slate-500 mt-1">Coba ubah kata kunci pencarian atau filter Anda.</p>
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-300">Tidak Ada Ruangan Ditemukan</h3>
+          <p className="text-xs text-slate-500 mt-1 font-medium">Coba ubah kata kunci pencarian atau filter Anda.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {rooms.map((room) => (
             <div
               key={room.id}
-              className="glass-card rounded-2xl p-5 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-slate-700 transition-all flex flex-col justify-between group shadow-sm"
+              className="glass-card rounded-2xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-slate-700 transition-all flex flex-col justify-between group shadow-sm"
             >
               <div>
                 {/* Header Card */}
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div>
-                    <span className="font-mono text-xs font-bold text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-md bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20">
+                    <span className="font-mono text-xs font-bold text-blue-700 dark:text-blue-400 px-2.5 py-1 rounded-md bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20">
                       {room.kodeRuang}
                     </span>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors">
+                    <h3 className="text-base font-extrabold text-slate-900 dark:text-white mt-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors">
                       {room.namaRuangan}
                     </h3>
                   </div>
@@ -307,8 +307,8 @@ export default function RoomsPage() {
                   <span
                     className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase flex items-center gap-1 ${
                       room.status === 'Tersedia'
-                        ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30'
-                        : 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30'
+                        ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30'
+                        : 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30'
                     }`}
                   >
                     {room.status === 'Tersedia' ? (
@@ -321,21 +321,21 @@ export default function RoomsPage() {
                 </div>
 
                 {/* Attributes */}
-                <div className="space-y-2 my-4 text-xs text-slate-600 dark:text-slate-400">
+                <div className="space-y-2 my-4 text-xs text-slate-600 dark:text-slate-400 font-medium">
                   <div className="flex items-center gap-2">
                     <Building className="w-4 h-4 text-slate-400 dark:text-slate-500" />
-                    <span>{room.namaGedung}</span>
+                    <span className="font-bold text-slate-800 dark:text-slate-300">{room.namaGedung}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-slate-400 dark:text-slate-500" />
-                    <span>Kapasitas: <strong className="text-slate-900 dark:text-white">{room.kapasitasRuang}</strong> Orang</span>
+                    <span>Kapasitas: <strong className="text-slate-900 dark:text-white font-extrabold">{room.kapasitasRuang}</strong> Orang</span>
                   </div>
                 </div>
               </div>
 
               {/* Footer Details & Admin Controls */}
-              <div className="pt-4 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
-                <span className="text-[10px] uppercase font-bold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <span className="text-[10px] uppercase font-bold text-slate-700 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700">
                   Jenis: {room.jenisRuang}
                 </span>
 
@@ -380,7 +380,7 @@ export default function RoomsPage() {
             </div>
 
             {formError && (
-              <div className="mt-4 p-3 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs">
+              <div className="mt-4 p-3 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs font-semibold">
                 {formError}
               </div>
             )}
@@ -388,61 +388,61 @@ export default function RoomsPage() {
             <form onSubmit={handleFormSubmit} className="space-y-4 mt-4 text-xs">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Kode Ruang</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Kode Ruang</label>
                   <input
                     type="text"
                     required
                     value={formData.kodeRuang}
                     onChange={(e) => setFormData({ ...formData, kodeRuang: e.target.value })}
                     placeholder="e.g. GDA-101"
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Kapasitas (Orang)</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Kapasitas (Orang)</label>
                   <input
                     type="number"
                     required
                     min="1"
                     value={formData.kapasitasRuang}
                     onChange={(e) => setFormData({ ...formData, kapasitasRuang: parseInt(e.target.value, 10) })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Nama Ruangan</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Nama Ruangan</label>
                 <input
                   type="text"
                   required
                   value={formData.namaRuangan}
                   onChange={(e) => setFormData({ ...formData, namaRuangan: e.target.value })}
                   placeholder="e.g. Ruang Kuliah 101"
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Nama Gedung</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Nama Gedung</label>
                   <input
                     type="text"
                     required
                     value={formData.namaGedung}
                     onChange={(e) => setFormData({ ...formData, namaGedung: e.target.value })}
                     placeholder="e.g. Gedung A"
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Jenis Ruangan</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Jenis Ruangan</label>
                   <select
                     value={formData.jenisRuang}
                     onChange={(e) => setFormData({ ...formData, jenisRuang: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   >
                     <option value="kelas">Kelas</option>
                     <option value="pertemuan">Pertemuan / Seminar</option>
@@ -452,11 +452,11 @@ export default function RoomsPage() {
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Status Operasional</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Status Operasional</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                 >
                   <option value="Tersedia">Tersedia</option>
                   <option value="Pemeliharaan">Pemeliharaan</option>
@@ -467,14 +467,14 @@ export default function RoomsPage() {
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold"
+                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="gradient-btn px-5 py-2 rounded-xl text-white font-semibold flex items-center gap-2"
+                  className="gradient-btn px-5 py-2 rounded-xl text-white font-bold flex items-center gap-2 shadow-md"
                 >
                   {submitting ? 'Menyimpan...' : editingRoom ? 'Simpan Perubahan' : 'Tambah Ruangan'}
                 </button>

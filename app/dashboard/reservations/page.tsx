@@ -192,7 +192,7 @@ export default function ReservationsPage() {
             <CalendarDays className="w-7 h-7 text-blue-600 dark:text-blue-400" />
             Manajemen Peminjaman Ruangan
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-xs mt-1">
+          <p className="text-slate-600 dark:text-slate-400 text-xs mt-1 font-medium">
             Pengajuan peminjaman ruangan perkuliahan, persetujuan admin, dan validasi bentrok jadwal.
           </p>
         </div>
@@ -202,7 +202,7 @@ export default function ReservationsPage() {
             setRequestError('');
             setRequestModalOpen(true);
           }}
-          className="gradient-btn px-5 py-2.5 rounded-xl text-white font-semibold text-xs flex items-center gap-2 shadow-lg self-start sm:self-auto"
+          className="gradient-btn px-5 py-2.5 rounded-xl text-white font-bold text-xs flex items-center gap-2 shadow-lg self-start sm:self-auto"
         >
           <Plus className="w-4 h-4" />
           Buat Pengajuan Peminjaman
@@ -210,7 +210,7 @@ export default function ReservationsPage() {
       </div>
 
       {/* Filter Bar */}
-      <div className="glass-card rounded-2xl p-4 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4 shadow-sm">
+      <div className="glass-card rounded-2xl p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 sm:space-y-0 sm:flex sm:items-center sm:gap-4 shadow-sm">
         {/* Search */}
         <div className="relative flex-1">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -219,7 +219,7 @@ export default function ReservationsPage() {
             placeholder="Cari peminjam, keperluan, atau ruangan..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-900/80 border border-slate-300 dark:border-slate-700/80 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+            className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 font-medium"
           />
         </div>
 
@@ -228,14 +228,14 @@ export default function ReservationsPage() {
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500"
+          className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
         />
 
         {/* Status Filter */}
         <select
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
-          className="bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:border-blue-500"
+          className="bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:border-blue-500 font-medium"
         >
           <option value="semua">Semua Status</option>
           <option value="Menunggu">Menunggu Approval</option>
@@ -249,10 +249,10 @@ export default function ReservationsPage() {
           <button
             type="button"
             onClick={() => setMineOnly(!mineOnly)}
-            className={`px-3 py-2 rounded-xl text-xs font-semibold transition-all border ${
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all border ${
               mineOnly
-                ? 'bg-blue-100 dark:bg-blue-600/20 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-500/40'
-                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-700'
+                ? 'bg-blue-100 dark:bg-blue-600/20 text-blue-800 dark:text-blue-300 border-blue-300 dark:border-blue-500/40'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border-slate-300 dark:border-slate-700'
             }`}
           >
             {mineOnly ? 'Peminjaman Saya' : 'Semua Jadwal Disetujui'}
@@ -266,17 +266,17 @@ export default function ReservationsPage() {
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : reservations.length === 0 ? (
-        <div className="glass-card rounded-2xl p-12 text-center bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
+        <div className="glass-card rounded-2xl p-12 text-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           <FileText className="w-12 h-12 text-slate-400 dark:text-slate-600 mx-auto mb-3" />
-          <h3 className="text-base font-semibold text-slate-700 dark:text-slate-300">Tidak Ada Data Peminjaman</h3>
-          <p className="text-xs text-slate-500 mt-1">Belum ada peminjaman ruangan yang cocok dengan filter Anda.</p>
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-300">Tidak Ada Data Peminjaman</h3>
+          <p className="text-xs text-slate-500 mt-1 font-medium">Belum ada peminjaman ruangan yang cocok dengan filter Anda.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {reservations.map((res) => (
             <div
               key={res.id}
-              className="glass-card rounded-2xl p-5 bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-slate-700 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
+              className="glass-card rounded-2xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-slate-700 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
             >
               {/* Info Column */}
               <div className="space-y-2 flex-1">
@@ -284,29 +284,29 @@ export default function ReservationsPage() {
                   <span className="font-mono text-xs font-bold text-blue-700 dark:text-blue-400 px-2.5 py-0.5 rounded-lg bg-blue-100 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20">
                     {res.room?.kodeRuang}
                   </span>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">{res.room?.namaRuangan}</h3>
-                  <span className="text-xs text-slate-500 dark:text-slate-400">({res.room?.namaGedung})</span>
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white">{res.room?.namaRuangan}</h3>
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">({res.room?.namaGedung})</span>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-slate-600 dark:text-slate-400">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-xs text-slate-600 dark:text-slate-400 font-medium">
                   <div className="flex items-center gap-1.5">
                     <User className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
-                    <span>Peminjam: <strong className="text-slate-800 dark:text-slate-200">{res.user?.name}</strong></span>
+                    <span>Peminjam: <strong className="text-slate-900 dark:text-slate-200 font-bold">{res.user?.name}</strong></span>
                   </div>
                   <div className="flex items-center gap-1.5 font-mono">
                     <Clock className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
-                    <span>{res.tanggal} • <strong className="text-blue-700 dark:text-blue-300">{res.jamMulai} - {res.jamSelesai}</strong></span>
+                    <span>{res.tanggal} • <strong className="text-blue-700 dark:text-blue-300 font-bold">{res.jamMulai} - {res.jamSelesai}</strong></span>
                   </div>
                 </div>
 
-                <p className="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/60 p-2.5 rounded-xl border border-slate-200 dark:border-slate-800/80">
-                  <strong className="text-slate-500 dark:text-slate-400">Keperluan:</strong> {res.keperluan}
+                <p className="text-xs text-slate-800 dark:text-slate-300 bg-slate-50 dark:bg-slate-950 p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-medium">
+                  <strong className="text-slate-600 dark:text-slate-400 font-bold">Keperluan:</strong> {res.keperluan}
                 </p>
 
                 {res.catatanAdmin && (
-                  <p className="text-[11px] text-amber-800 dark:text-amber-300/90 bg-amber-50 dark:bg-amber-500/10 p-2 rounded-lg border border-amber-200 dark:border-amber-500/20 flex items-start gap-1.5">
+                  <p className="text-[11px] text-amber-900 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 p-2.5 rounded-lg border border-amber-200 dark:border-amber-500/20 flex items-start gap-1.5 font-medium">
                     <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                    <span><strong>Catatan Admin:</strong> {res.catatanAdmin}</span>
+                    <span><strong className="font-bold">Catatan Admin:</strong> {res.catatanAdmin}</span>
                   </p>
                 )}
               </div>
@@ -316,12 +316,12 @@ export default function ReservationsPage() {
                 <span
                   className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase flex items-center gap-1.5 ${
                     res.status === 'Disetujui'
-                      ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30'
+                      ? 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-500/30'
                       : res.status === 'Menunggu'
-                      ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30'
+                      ? 'bg-amber-100 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30'
                       : res.status === 'Ditolak'
-                      ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30'
-                      : 'bg-slate-100 dark:bg-slate-500/15 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-500/30'
+                      ? 'bg-rose-100 dark:bg-rose-500/15 text-rose-800 dark:text-rose-300 border border-rose-300 dark:border-rose-500/30'
+                      : 'bg-slate-100 dark:bg-slate-500/15 text-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-500/30'
                   }`}
                 >
                   {res.status === 'Disetujui' && <CheckCircle2 className="w-4 h-4" />}
@@ -334,7 +334,7 @@ export default function ReservationsPage() {
                   {isAdmin && res.status === 'Menunggu' && (
                     <button
                       onClick={() => handleOpenApprovalModal(res)}
-                      className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md transition-all flex items-center gap-1.5"
+                      className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold shadow-md transition-all flex items-center gap-1.5"
                     >
                       <Check className="w-3.5 h-3.5" />
                       Review & Process
@@ -375,7 +375,7 @@ export default function ReservationsPage() {
             </div>
 
             {requestError && (
-              <div className="mt-4 p-3.5 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2">
+              <div className="mt-4 p-3.5 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2 font-semibold">
                 <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{requestError}</span>
               </div>
@@ -383,11 +383,11 @@ export default function ReservationsPage() {
 
             <form onSubmit={handleCreateRequest} className="space-y-4 mt-4 text-xs">
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Pilih Ruangan</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Pilih Ruangan</label>
                 <select
                   value={requestForm.roomId}
                   onChange={(e) => setRequestForm({ ...requestForm, roomId: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                 >
                   {rooms.map((r) => (
                     <option key={r.id} value={r.id}>
@@ -398,49 +398,49 @@ export default function ReservationsPage() {
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Tanggal Peminjaman</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Tanggal Peminjaman</label>
                 <input
                   type="date"
                   required
                   value={requestForm.tanggal}
                   onChange={(e) => setRequestForm({ ...requestForm, tanggal: e.target.value })}
-                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Jam Mulai</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Jam Mulai</label>
                   <input
                     type="time"
                     required
                     value={requestForm.jamMulai}
                     onChange={(e) => setRequestForm({ ...requestForm, jamMulai: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Jam Selesai</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Jam Selesai</label>
                   <input
                     type="time"
                     required
                     value={requestForm.jamSelesai}
                     onChange={(e) => setRequestForm({ ...requestForm, jamSelesai: e.target.value })}
-                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500"
+                    className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 font-medium"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">Keperluan / Nama Kegiatan</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Keperluan / Nama Kegiatan</label>
                 <textarea
                   required
                   rows={3}
                   value={requestForm.keperluan}
                   onChange={(e) => setRequestForm({ ...requestForm, keperluan: e.target.value })}
                   placeholder="Contoh: Kuliah Praktikum Pemrograman Web - Kelas A (2 SKS)"
-                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 font-medium"
                 />
               </div>
 
@@ -448,14 +448,14 @@ export default function ReservationsPage() {
                 <button
                   type="button"
                   onClick={() => setRequestModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-semibold"
+                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={submittingRequest}
-                  className="gradient-btn px-5 py-2 rounded-xl text-white font-semibold flex items-center gap-2"
+                  className="gradient-btn px-5 py-2 rounded-xl text-white font-bold flex items-center gap-2 shadow-md"
                 >
                   {submittingRequest ? 'Kirim...' : 'Kirim Pengajuan'}
                 </button>
@@ -480,25 +480,25 @@ export default function ReservationsPage() {
             </div>
 
             {approvalError && (
-              <div className="p-3 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2">
+              <div className="p-3 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2 font-semibold">
                 <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{approvalError}</span>
               </div>
             )}
 
-            <div className="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+            <div className="bg-slate-50 dark:bg-slate-950 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-2">
               <div className="font-bold text-blue-700 dark:text-blue-400">
                 [{selectedReservation.room?.kodeRuang}] {selectedReservation.room?.namaRuangan}
               </div>
-              <div className="text-slate-700 dark:text-slate-300">Peminjam: <strong>{selectedReservation.user?.name}</strong></div>
-              <div className="text-slate-500 dark:text-slate-400">Jadwal: {selectedReservation.tanggal} ({selectedReservation.jamMulai} - {selectedReservation.jamSelesai})</div>
-              <div className="text-slate-800 dark:text-slate-300 font-mono bg-slate-100 dark:bg-slate-950 p-2 rounded-md border border-slate-200 dark:border-slate-800">
+              <div className="text-slate-800 dark:text-slate-300">Peminjam: <strong>{selectedReservation.user?.name}</strong></div>
+              <div className="text-slate-600 dark:text-slate-400">Jadwal: {selectedReservation.tanggal} ({selectedReservation.jamMulai} - {selectedReservation.jamSelesai})</div>
+              <div className="text-slate-900 dark:text-slate-200 font-mono bg-white dark:bg-slate-900 p-2.5 rounded-md border border-slate-200 dark:border-slate-800 font-medium">
                 Keperluan: {selectedReservation.keperluan}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
                 Catatan / Alasan Admin (Opsional)
               </label>
               <textarea
@@ -506,7 +506,7 @@ export default function ReservationsPage() {
                 value={catatanAdmin}
                 onChange={(e) => setCatatanAdmin(e.target.value)}
                 placeholder="Contoh: Disetujui untuk kegiatan perkuliahan semester ganjil."
-                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 font-medium"
               />
             </div>
 
@@ -515,7 +515,7 @@ export default function ReservationsPage() {
                 type="button"
                 disabled={processingApproval}
                 onClick={() => handleProcessApproval('REJECT')}
-                className="py-2.5 px-4 rounded-xl bg-rose-100 dark:bg-rose-600/20 hover:bg-rose-200 dark:hover:bg-rose-600/30 border border-rose-300 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all"
+                className="py-2.5 px-4 rounded-xl bg-rose-100 dark:bg-rose-600/20 hover:bg-rose-200 dark:hover:bg-rose-600/30 border border-rose-300 dark:border-rose-500/40 text-rose-700 dark:text-rose-300 font-bold text-xs flex items-center justify-center gap-1.5 transition-all"
               >
                 <XCircle className="w-4 h-4" />
                 Tolak Pengajuan
@@ -524,7 +524,7 @@ export default function ReservationsPage() {
                 type="button"
                 disabled={processingApproval}
                 onClick={() => handleProcessApproval('APPROVE')}
-                className="py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-1.5 shadow-lg transition-all"
+                className="py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-lg transition-all"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 Setujui (Approve)

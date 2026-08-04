@@ -30,27 +30,29 @@ export default function Navbar({ user }: NavbarProps) {
   const router = useRouter();
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
+  const applyTheme = (targetTheme: 'light' | 'dark') => {
+    if (targetTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  };
+
   useEffect(() => {
-    // Check saved theme in localStorage, default is light
+    // Default theme is ALWAYS 'light'
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const initialTheme = savedTheme || 'light';
     setTheme(initialTheme);
-    if (initialTheme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    applyTheme(initialTheme);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    applyTheme(newTheme);
   };
 
   const handleLogout = async () => {
@@ -66,7 +68,7 @@ export default function Navbar({ user }: NavbarProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl transition-colors">
+    <header className="sticky top-0 z-40 w-full border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl transition-colors shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand Logo */}
@@ -89,10 +91,10 @@ export default function Navbar({ user }: NavbarProps) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all ${
+                    className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
                       isActive
-                        ? 'bg-blue-50 dark:bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30'
-                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-900'
+                        ? 'bg-blue-50 dark:bg-blue-600/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-900'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -105,36 +107,36 @@ export default function Navbar({ user }: NavbarProps) {
 
           {/* User Info & Theme Toggle */}
           <div className="flex items-center gap-3">
-            {/* Theme Toggle Button */}
+            {/* Theme Switcher Button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all flex items-center gap-1.5 text-xs font-semibold"
-              title={`Beralih ke Tema ${theme === 'light' ? 'Gelap (Dark)' : 'Terang (Light)'}`}
+              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition-all flex items-center gap-1.5 text-xs font-bold"
+              title={`Ganti ke Tema ${theme === 'light' ? 'Gelap' : 'Terang'}`}
             >
               {theme === 'light' ? (
                 <>
                   <Moon className="w-4 h-4 text-indigo-600" />
-                  <span className="hidden sm:inline">Gelap</span>
+                  <span className="hidden sm:inline">Mode Gelap</span>
                 </>
               ) : (
                 <>
                   <Sun className="w-4 h-4 text-amber-400" />
-                  <span className="hidden sm:inline">Terang</span>
+                  <span className="hidden sm:inline">Mode Terang</span>
                 </>
               )}
             </button>
 
             {user && (
-              <div className="hidden sm:flex items-center gap-3 pl-3 py-1.5 pr-1 rounded-2xl bg-slate-100 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
+              <div className="hidden sm:flex items-center gap-3 pl-3 py-1.5 pr-1.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
                 <div className="text-right">
-                  <p className="text-xs font-semibold text-slate-900 dark:text-white leading-tight">{user.name}</p>
+                  <p className="text-xs font-bold text-slate-900 dark:text-white leading-tight">{user.name}</p>
                   <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight">{user.email}</p>
                 </div>
                 <div
                   className={`flex items-center gap-1 text-[11px] font-bold uppercase px-2.5 py-1 rounded-xl ${
                     user.role === 'ADMIN'
-                      ? 'bg-purple-100 dark:bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30'
-                      : 'bg-emerald-100 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30'
+                      ? 'bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-500/30'
+                      : 'bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30'
                   }`}
                 >
                   {user.role === 'ADMIN' ? (
@@ -154,7 +156,7 @@ export default function Navbar({ user }: NavbarProps) {
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 border border-transparent hover:border-rose-200 dark:hover:border-rose-500/20 transition-all"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 border border-transparent hover:border-rose-200 dark:hover:border-rose-500/20 transition-all"
               title="Keluar Akun"
             >
               <LogOut className="w-4 h-4" />
@@ -164,8 +166,8 @@ export default function Navbar({ user }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile Subnav */}
-      <div className="md:hidden flex items-center justify-around border-t border-slate-200 dark:border-slate-800/80 px-2 py-2 bg-white/90 dark:bg-slate-950/90">
+      {/* Mobile Nav */}
+      <div className="md:hidden flex items-center justify-around border-t border-slate-200 dark:border-slate-800 px-2 py-2 bg-white dark:bg-slate-950">
         {navLinks.map((link) => {
           const Icon = link.icon;
           const isActive = pathname === link.href;
@@ -173,10 +175,10 @@ export default function Navbar({ user }: NavbarProps) {
             <Link
               key={link.href}
               href={link.href}
-              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all ${
+              className={`flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${
                 isActive
-                  ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-600/10'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                  ? 'text-blue-700 dark:text-blue-400 bg-blue-50 dark:bg-blue-600/20'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
               }`}
             >
               <Icon className="w-4 h-4" />

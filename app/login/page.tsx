@@ -12,26 +12,28 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
+  const applyTheme = (targetTheme: 'light' | 'dark') => {
+    if (targetTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.body.classList.remove('dark');
+    }
+  };
+
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     const initialTheme = savedTheme || 'light';
     setTheme(initialTheme);
-    if (initialTheme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    applyTheme(initialTheme);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    if (newTheme === 'dark') {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
+    applyTheme(newTheme);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -73,11 +75,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4 bg-gradient-to-br from-slate-100 via-blue-50/50 to-slate-200 dark:from-slate-900 dark:via-slate-950 dark:to-black overflow-hidden transition-colors">
+    <div className="min-h-screen relative flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       {/* Theme Toggle Floating Button */}
       <button
         onClick={toggleTheme}
-        className="absolute top-6 right-6 z-20 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-md flex items-center gap-2 text-xs font-semibold hover:scale-105 transition-all"
+        className="absolute top-6 right-6 z-20 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 shadow-md flex items-center gap-2 text-xs font-bold hover:scale-105 transition-all"
         title="Ganti Tema"
       >
         {theme === 'light' ? (
@@ -112,9 +114,9 @@ export default function LoginPage() {
         </div>
 
         {/* Card */}
-        <div className="glass-card rounded-3xl p-8 shadow-xl bg-white/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800">
+        <div className="glass-card rounded-3xl p-8 shadow-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
           {error && (
-            <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm flex items-center gap-3">
+            <div className="mb-6 p-4 rounded-xl bg-rose-100 dark:bg-rose-500/10 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 text-sm flex items-center gap-3">
               <AlertCircle className="w-5 h-5 shrink-0" />
               <span>{error}</span>
             </div>
@@ -122,7 +124,7 @@ export default function LoginPage() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                 Email Pengguna
               </label>
               <div className="relative">
@@ -133,13 +135,13 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="masukkan@kampus.ac.id"
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                  className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm font-medium"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
                 Kata Sandi
               </label>
               <div className="relative">
@@ -150,7 +152,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-900/60 border border-slate-300 dark:border-slate-700/60 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                  className="w-full pl-12 pr-4 py-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all text-sm font-medium"
                 />
               </div>
             </div>
@@ -158,7 +160,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full gradient-btn text-white font-semibold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:opacity-95 transition-all text-sm disabled:opacity-50"
+              className="w-full gradient-btn text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg hover:opacity-95 transition-all text-sm disabled:opacity-50"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -173,14 +175,14 @@ export default function LoginPage() {
 
           {/* Quick Demo Section */}
           <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800">
-            <p className="text-xs font-medium text-slate-600 dark:text-slate-400 text-center mb-3">
+            <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 text-center mb-3">
               Gunakan Akun Uji Coba Cepat (Seeder):
             </p>
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={fillDemoAdmin}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-semibold text-blue-600 dark:text-blue-400 transition-all"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-blue-700 dark:text-blue-400 transition-all"
               >
                 <Shield className="w-3.5 h-3.5" />
                 Akun Admin
@@ -188,7 +190,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={fillDemoDosen}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-semibold text-emerald-600 dark:text-emerald-400 transition-all"
+                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-400 transition-all"
               >
                 <UserCheck className="w-3.5 h-3.5" />
                 Akun Dosen
@@ -198,7 +200,7 @@ export default function LoginPage() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-slate-500 dark:text-slate-500 mt-6">
+        <p className="text-center text-xs text-slate-500 mt-6">
           © 2026 SI-RUANG • Neon PostgreSQL & Next.js App Router
         </p>
       </div>

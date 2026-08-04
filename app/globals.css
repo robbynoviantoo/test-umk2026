@@ -1,40 +1,41 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Theme Default Light */
-body {
+/* Light Mode (Default) Base Styles */
+html, body {
   font-family: var(--font-sans);
-  background-color: #f8fafc;
-  color: #0f172a;
+  background-color: #f8fafc !important; /* Soft Slate-50 Light Background */
+  color: #0f172a !important; /* Slate-900 Dark Text */
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.dark {
-  background-color: #0f172a;
-  color: #f8fafc;
+/* Dark Mode Base Styles */
+html.dark, body.dark {
+  background-color: #0f172a !important; /* Dark Navy Background */
+  color: #f8fafc !important; /* White Text */
 }
 
-/* Glassmorphism Light Mode (Default) */
+/* Glass Card styling */
 .glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05);
 }
 
 .dark .glass-card {
-  background: rgba(30, 41, 59, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #1e293b;
+  border: 1px solid #334155;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
+/* Gradient Text */
 .gradient-text {
   background: linear-gradient(135deg, #0284c7 0%, #4f46e5 50%, #7c3aed 100%);
   -webkit-background-clip: text;
@@ -47,17 +48,19 @@ body.dark {
   -webkit-text-fill-color: transparent;
 }
 
+/* Gradient Button */
 .gradient-btn {
   background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
-  transition: all 0.3s ease;
+  color: #ffffff !important;
+  transition: all 0.2s ease;
 }
 
 .gradient-btn:hover {
   background: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.35);
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.35);
 }
 
-/* Custom Scrollbar */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -74,5 +77,4 @@ body.dark {
 }
 .dark ::-webkit-scrollbar-thumb {
   background: #334155;
-  border-radius: 4px;
 }
